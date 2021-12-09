@@ -34,7 +34,7 @@ class SuperSale(db.Model):
         self.buy_amount = buy_amount  # relevant only to sale type 1 (buy x get y -> buy_amount=x, amount=x+y)
 
     def __repr__(self):
-        return f"buy x: {self.amount} items get discount: {self.discount}"
+        return f"Buy x: {self.amount} items get discount: {self.discount}"
 
     @staticmethod
     def delete_all():
@@ -42,7 +42,7 @@ class SuperSale(db.Model):
         delete all sales records on DB
         """
         try:
-            log.warning("delete all sales")
+            log.warning("Delete all sales")
 
             db.session.query(SuperSale).delete()
             db.session.commit()
@@ -68,7 +68,7 @@ class SuperSale(db.Model):
                 db.session.rollback()
                 log.error("Trying to add sale type 1 object with exist primary key. Aborting")
         else:
-            log.error(f"sorry item id: {item_id} is not exist, failed to add sale")
+            log.error(f"Sorry item id: {item_id} is not exist, failed to add sale")
 
     @staticmethod
     def add_sale2(item_id: str, buy_items: int, sale_price: float):
@@ -86,7 +86,7 @@ class SuperSale(db.Model):
                 db.session.rollback()
                 log.error("Trying to add sale type 2 object with exist primary key. Aborting")
         else:
-            log.error(f"sorry item id: {item_id} is not exist, failed to add sale")
+            log.error(f"Sorry item id: {item_id} is not exist, failed to add sale")
 
     @staticmethod
     def get_sale_details_by_item_id(item_id) -> (int, int, int):
@@ -96,7 +96,7 @@ class SuperSale(db.Model):
         sales_obj = db.session.query(SuperSale).filter(SuperSale.item_id == item_id).one_or_none()
 
         if not sales_obj:
-            log.error(f"item with id: {item_id} is not found")
+            log.error(f"There is no sale to item id: {item_id}")
             return 0, 0, 0
 
         return sales_obj.amount, sales_obj.discount, sales_obj.buy_amount

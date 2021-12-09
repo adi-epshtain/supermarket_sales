@@ -17,12 +17,15 @@ class Item(db.Model):
         self.name = name
         self.price = price
 
+    def __repr__(self):
+        return f"Item: {self.name} id: {self.id}"
+
     def add_item(self):
         """
         add new item to DB
         :return: item
         """
-        log.warning("add item: {}".format(self.id))
+        log.info(f"Add item: {self.name} id: {self.id}")
         try:
             db.session.add(self)
             db.session.commit()
@@ -38,7 +41,7 @@ class Item(db.Model):
         delete all items records on DB
         """
         try:
-            log.warning("delete all items")
+            log.warning("Delete all items")
 
             db.session.query(Item).delete()
             db.session.commit()
@@ -54,7 +57,7 @@ class Item(db.Model):
         item = db.session.query(Item).filter(Item.id == item_id).one_or_none()
 
         if not item:
-            log.error(f"item with id: {item_id} is not found")
+            log.error(f"Item with id: {item_id} is not found")
 
         return item
 
